@@ -1,0 +1,11 @@
+version: '2'
+services:
+    dataqualitybooster-postgresql:
+        image: postgres:9.6.5
+        # volumes:
+        #     - ~/volumes/jhipster/dataQualityBooster/postgresql/:/var/lib/postgresql/data/
+        environment:
+            - POSTGRES_USER=dataQualityBooster
+            - POSTGRES_PASSWORD=
+        ports:
+            - 5432:5432
