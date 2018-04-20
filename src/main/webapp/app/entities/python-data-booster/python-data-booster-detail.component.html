@@ -1,0 +1,42 @@
+
+<div *ngIf="python">
+    <h2><span jhiTranslate="dataQualityBoosterApp.python.detail.title">Python</span> {{python.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="dataQualityBoosterApp.python.name">Name</span></dt>
+        <dd>
+            <span>{{python.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="dataQualityBoosterApp.python.server">Server</span></dt>
+        <dd>
+            <span>{{python.server}}</span>
+        </dd>
+        <dt><span jhiTranslate="dataQualityBoosterApp.python.login">Login</span></dt>
+        <dd>
+            <span>{{python.login}}</span>
+        </dd>
+        <dt><span jhiTranslate="dataQualityBoosterApp.python.keySSH">Key SSH</span></dt>
+        <dd>
+            <span>{{python.keySSH}}</span>
+        </dd>
+        <dt><span jhiTranslate="dataQualityBoosterApp.python.defaultParameter">Default Parameter</span></dt>
+        <dd>
+            <span>{{python.defaultParameter}}</span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'python-data-booster/'+ python.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

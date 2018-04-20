@@ -1,0 +1,72 @@
+entity Context {
+	name String,
+    client String,
+    image ImageBlob
+}
+
+entity Pickle {
+	nameField String,
+    file AnyBlob,
+    path String
+}
+
+entity Parameter {
+	name String,
+    value TextBlob
+}
+
+// an ignored comment
+/** not an ignored comment */
+entity Python {
+	name String,
+    server String,
+    login String,
+    keySSH TextBlob,
+    defaultParameter String
+    
+}
+
+entity Execution {
+	startDate Instant,
+    endDate Instant,
+    status Status,
+    inputFile AnyBlob,
+    outputFile AnyBlob,
+    logFile AnyBlob,
+    optimize Boolean,
+    train Boolean,
+    allocation Boolean,
+    commentary TextBlob,
+    userId String
+}
+
+
+enum Status {
+    STARTED, FINISHED, EXCUTING, ERROR
+}
+
+relationship ManyToOne {
+	Execution{context} to Context
+}
+relationship ManyToOne {
+	Context{python} to Python
+}
+
+relationship ManyToOne {
+	Parameter{context} to Context
+}
+relationship ManyToOne {
+	Pickle{context} to Context
+}
+
+// Set pagination options
+paginate Python, Parameter with infinite-scroll
+paginate Context, Execution with pagination
+search * with elasticsearch 
+
+dto * with mapstruct
+
+// Set service options to all except few
+service all with serviceImpl 
+// Set an angular suffix
+angularSuffix * with dataBooster

@@ -1,0 +1,26 @@
+
+{
+    "dataQualityBoosterApp": {
+        "pickle" : {
+            "home": {
+                "title": "Pickles",
+                "createLabel": "Créer un nouveau Pickle",
+                "createOrEditLabel": "Créer ou éditer un Pickle",
+                "search": "Recherche pour Pickle"
+            },
+            "created": "Un nouveau Pickle a été créé avec l'identifiant {{ param }}",
+            "updated": "Le Pickle avec l'identifiant {{ param }} a été mis à jour",
+            "deleted": "Le Pickle avec l'identifiant {{ param }} a été supprimé",
+            "delete": {
+                "question": "Etes-vous certain de vouloir supprimer le Pickle {{ id }} ?"
+            },
+            "detail": {
+                "title": "Pickle"
+            },
+            "nameField": "Name Field",
+            "file": "File",
+            "path": "Path",
+            "context": "Context"
+        }
+    }
+}

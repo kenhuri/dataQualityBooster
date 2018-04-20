@@ -1,0 +1,134 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myExecutionLabel" jhiTranslate="dataQualityBoosterApp.execution.home.createOrEditLabel">Create or edit a Execution</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!execution.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="execution.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="dataQualityBoosterApp.execution.startDate" for="field_startDate">Start Date</label>
+            <div class="d-flex">
+                <input id="field_startDate" type="datetime-local" class="form-control" name="startDate" [(ngModel)]="execution.startDate"
+                />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="dataQualityBoosterApp.execution.endDate" for="field_endDate">End Date</label>
+            <div class="d-flex">
+                <input id="field_endDate" type="datetime-local" class="form-control" name="endDate" [(ngModel)]="execution.endDate"
+                />
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="dataQualityBoosterApp.execution.status" for="field_status">Status</label>
+            <select class="form-control" name="status" [(ngModel)]="execution.status" id="field_status" >
+                <option value="STARTED">{{'dataQualityBoosterApp.Status.STARTED' | translate}}</option>
+                <option value="FINISHED">{{'dataQualityBoosterApp.Status.FINISHED' | translate}}</option>
+                <option value="EXCUTING">{{'dataQualityBoosterApp.Status.EXCUTING' | translate}}</option>
+                <option value="ERROR">{{'dataQualityBoosterApp.Status.ERROR' | translate}}</option>
+            </select>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="dataQualityBoosterApp.execution.inputFile" for="field_inputFile">Input File</label>
+            <div>
+                <div *ngIf="execution.inputFile" class="form-text text-danger clearfix">
+                    <a class="pull-left" (click)="openFile(execution.inputFileContentType, execution.inputFile)" jhiTranslate="entity.action.open">open</a><br>
+                    <span class="pull-left">{{execution.inputFileContentType}}, {{byteSize(execution.inputFile)}}</span>
+                    <button type="button" (click)="execution.inputFile=null;execution.inputFileContentType=null;"
+                            class="btn btn-secondary btn-xs pull-right">
+                        <span class="fa fa-times"></span>
+                    </button>
+                </div>
+                <input type="file" id="file_inputFile" (change)="setFileData($event, execution, 'inputFile', false)" jhiTranslate="entity.action.addblob"/>
+            </div>
+            <input type="hidden" class="form-control" name="inputFile" id="field_inputFile"
+                [(ngModel)]="execution.inputFile" />
+            <input type="hidden" class="form-control" name="inputFileContentType" id="field_inputFileContentType"
+                [(ngModel)]="execution.inputFileContentType" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="dataQualityBoosterApp.execution.outputFile" for="field_outputFile">Output File</label>
+            <div>
+                <div *ngIf="execution.outputFile" class="form-text text-danger clearfix">
+                    <a class="pull-left" (click)="openFile(execution.outputFileContentType, execution.outputFile)" jhiTranslate="entity.action.open">open</a><br>
+                    <span class="pull-left">{{execution.outputFileContentType}}, {{byteSize(execution.outputFile)}}</span>
+                    <button type="button" (click)="execution.outputFile=null;execution.outputFileContentType=null;"
+                            class="btn btn-secondary btn-xs pull-right">
+                        <span class="fa fa-times"></span>
+                    </button>
+                </div>
+                <input type="file" id="file_outputFile" (change)="setFileData($event, execution, 'outputFile', false)" jhiTranslate="entity.action.addblob"/>
+            </div>
+            <input type="hidden" class="form-control" name="outputFile" id="field_outputFile"
+                [(ngModel)]="execution.outputFile" />
+            <input type="hidden" class="form-control" name="outputFileContentType" id="field_outputFileContentType"
+                [(ngModel)]="execution.outputFileContentType" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="dataQualityBoosterApp.execution.logFile" for="field_logFile">Log File</label>
+            <div>
+                <div *ngIf="execution.logFile" class="form-text text-danger clearfix">
+                    <a class="pull-left" (click)="openFile(execution.logFileContentType, execution.logFile)" jhiTranslate="entity.action.open">open</a><br>
+                    <span class="pull-left">{{execution.logFileContentType}}, {{byteSize(execution.logFile)}}</span>
+                    <button type="button" (click)="execution.logFile=null;execution.logFileContentType=null;"
+                            class="btn btn-secondary btn-xs pull-right">
+                        <span class="fa fa-times"></span>
+                    </button>
+                </div>
+                <input type="file" id="file_logFile" (change)="setFileData($event, execution, 'logFile', false)" jhiTranslate="entity.action.addblob"/>
+            </div>
+            <input type="hidden" class="form-control" name="logFile" id="field_logFile"
+                [(ngModel)]="execution.logFile" />
+            <input type="hidden" class="form-control" name="logFileContentType" id="field_logFileContentType"
+                [(ngModel)]="execution.logFileContentType" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="dataQualityBoosterApp.execution.optimize" for="field_optimize">Optimize</label>
+            <input type="checkbox" class="form-control" name="optimize" id="field_optimize"
+                [(ngModel)]="execution.optimize" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="dataQualityBoosterApp.execution.train" for="field_train">Train</label>
+            <input type="checkbox" class="form-control" name="train" id="field_train"
+                [(ngModel)]="execution.train" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="dataQualityBoosterApp.execution.allocation" for="field_allocation">Allocation</label>
+            <input type="checkbox" class="form-control" name="allocation" id="field_allocation"
+                [(ngModel)]="execution.allocation" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="dataQualityBoosterApp.execution.commentary" for="field_commentary">Commentary</label>
+            <textarea class="form-control" name="commentary" id="field_commentary"
+                [(ngModel)]="execution.commentary" ></textarea>
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="dataQualityBoosterApp.execution.userId" for="field_userId">User Id</label>
+            <input type="text" class="form-control" name="userId" id="field_userId"
+                [(ngModel)]="execution.userId" />
+        </div>
+
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="dataQualityBoosterApp.execution.context" for="field_context">Context</label>
+            <select class="form-control" id="field_context" name="context" [(ngModel)]="execution.contextId" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="contextOption.id" *ngFor="let contextOption of contexts; trackBy: trackContextById">{{contextOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

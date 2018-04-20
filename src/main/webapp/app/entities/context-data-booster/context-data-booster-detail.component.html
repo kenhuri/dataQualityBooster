@@ -1,0 +1,45 @@
+
+<div *ngIf="context">
+    <h2><span jhiTranslate="dataQualityBoosterApp.context.detail.title">Context</span> {{context.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="dataQualityBoosterApp.context.name">Name</span></dt>
+        <dd>
+            <span>{{context.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="dataQualityBoosterApp.context.client">Client</span></dt>
+        <dd>
+            <span>{{context.client}}</span>
+        </dd>
+        <dt><span jhiTranslate="dataQualityBoosterApp.context.image">Image</span></dt>
+        <dd>
+            <div *ngIf="context.image">
+                <a (click)="openFile(context.imageContentType, context.image)">
+                    <img [src]="'data:' + context.imageContentType + ';base64,' + context.image" style="max-width: 100%;" alt="context image"/>
+                </a>
+                {{context.imageContentType}}, {{byteSize(context.image)}}
+            </div>
+        </dd>
+        <dt><span jhiTranslate="dataQualityBoosterApp.context.python">Python</span></dt>
+        <dd>
+            <div *ngIf="context.pythonId">
+                <a [routerLink]="['/python-data-booster', context.pythonId]">{{context.pythonId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'context-data-booster/'+ context.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>
