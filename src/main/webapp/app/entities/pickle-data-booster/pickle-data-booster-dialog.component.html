@@ -1,0 +1,60 @@
+<form name="editForm" role="form" novalidate (ngSubmit)="save()" #editForm="ngForm">
+
+    <div class="modal-header">
+        <h4 class="modal-title" id="myPickleLabel" jhiTranslate="dataQualityBoosterApp.pickle.home.createOrEditLabel">Create or edit a Pickle</h4>
+        <button type="button" class="close" data-dismiss="modal" aria-hidden="true"
+                (click)="clear()">&times;</button>
+    </div>
+    <div class="modal-body">
+        <jhi-alert-error></jhi-alert-error>
+        <div class="form-group" [hidden]="!pickle.id">
+            <label for="id" jhiTranslate="global.field.id">ID</label>
+            <input type="text" class="form-control" id="id" name="id"
+                   [(ngModel)]="pickle.id" readonly />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="dataQualityBoosterApp.pickle.nameField" for="field_nameField">Name Field</label>
+            <input type="text" class="form-control" name="nameField" id="field_nameField"
+                [(ngModel)]="pickle.nameField" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="dataQualityBoosterApp.pickle.file" for="field_file">File</label>
+            <div>
+                <div *ngIf="pickle.file" class="form-text text-danger clearfix">
+                    <a class="pull-left" (click)="openFile(pickle.fileContentType, pickle.file)" jhiTranslate="entity.action.open">open</a><br>
+                    <span class="pull-left">{{pickle.fileContentType}}, {{byteSize(pickle.file)}}</span>
+                    <button type="button" (click)="pickle.file=null;pickle.fileContentType=null;"
+                            class="btn btn-secondary btn-xs pull-right">
+                        <span class="fa fa-times"></span>
+                    </button>
+                </div>
+                <input type="file" id="file_file" (change)="setFileData($event, pickle, 'file', false)" jhiTranslate="entity.action.addblob"/>
+            </div>
+            <input type="hidden" class="form-control" name="file" id="field_file"
+                [(ngModel)]="pickle.file" />
+            <input type="hidden" class="form-control" name="fileContentType" id="field_fileContentType"
+                [(ngModel)]="pickle.fileContentType" />
+        </div>
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="dataQualityBoosterApp.pickle.path" for="field_path">Path</label>
+            <input type="text" class="form-control" name="path" id="field_path"
+                [(ngModel)]="pickle.path" />
+        </div>
+
+        <div class="form-group">
+            <label class="form-control-label" jhiTranslate="dataQualityBoosterApp.pickle.context" for="field_context">Context</label>
+            <select class="form-control" id="field_context" name="context" [(ngModel)]="pickle.contextId" >
+                <option [ngValue]="null"></option>
+                <option [ngValue]="contextOption.id" *ngFor="let contextOption of contexts; trackBy: trackContextById">{{contextOption.id}}</option>
+            </select>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal" (click)="clear()">
+            <span class="fa fa-ban"></span>&nbsp;<span jhiTranslate="entity.action.cancel">Cancel</span>
+        </button>
+        <button type="submit" [disabled]="editForm.form.invalid || isSaving" class="btn btn-primary">
+            <span class="fa fa-save"></span>&nbsp;<span jhiTranslate="entity.action.save">Save</span>
+        </button>
+    </div>
+</form>

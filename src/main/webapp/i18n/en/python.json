@@ -1,0 +1,27 @@
+
+{
+    "dataQualityBoosterApp": {
+        "python" : {
+            "home": {
+                "title": "Pythons",
+                "createLabel": "Create a new Python",
+                "createOrEditLabel": "Create or edit a Python",
+                "search": "Search for Python"
+            },
+            "created": "A new Python is created with identifier {{ param }}",
+            "updated": "A Python is updated with identifier {{ param }}",
+            "deleted": "A Python is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Python {{ id }}?"
+            },
+            "detail": {
+                "title": "Python"
+            },
+            "name": "Name",
+            "server": "Server",
+            "login": "Login",
+            "keySSH": "Key SSH",
+            "defaultParameter": "Default Parameter"
+        }
+    }
+}

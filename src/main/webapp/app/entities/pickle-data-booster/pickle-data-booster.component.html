@@ -1,0 +1,84 @@
+<div>
+    <h2>
+        <span jhiTranslate="dataQualityBoosterApp.pickle.home.title">Pickles</span>
+        <button class="btn btn-primary float-right jh-create-entity create-pickle-data-booster" [routerLink]="['/', { outlets: { popup: ['pickle-data-booster-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span class="hidden-sm-down"  jhiTranslate="dataQualityBoosterApp.pickle.home.createLabel">
+            Create new Pickle
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="{{ 'dataQualityBoosterApp.pickle.home.search' | translate }}">
+                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                        <span class="fa fa-search"></span>
+                    </button>
+                    <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                        <span class="fa fa-trash-o"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="pickles">
+        <table class="table table-striped">
+            <thead>
+            <tr>
+            <th><span jhiTranslate="global.field.id">ID</span></th>
+            <th><span jhiTranslate="dataQualityBoosterApp.pickle.nameField">Name Field</span></th>
+            <th><span jhiTranslate="dataQualityBoosterApp.pickle.file">File</span></th>
+            <th><span jhiTranslate="dataQualityBoosterApp.pickle.path">Path</span></th>
+            <th><span jhiTranslate="dataQualityBoosterApp.pickle.context">Context</span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let pickle of pickles ;trackBy: trackId">
+                <td><a [routerLink]="['../pickle-data-booster', pickle.id ]">{{pickle.id}}</a></td>
+                <td>{{pickle.nameField}}</td>
+                <td>
+                    <a *ngIf="pickle.file" (click)="openFile(pickle.fileContentType, pickle.file)" jhiTranslate="entity.action.open">open</a>
+                    <span *ngIf="pickle.file">{{pickle.fileContentType}}, {{byteSize(pickle.file)}}</span>
+                </td>
+                <td>{{pickle.path}}</td>
+                <td>
+                    <div *ngIf="pickle.contextId">
+                        <a [routerLink]="['../context-data-booster', pickle.contextId  ]" >{{pickle.contextId}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../pickle-data-booster', pickle.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'pickle-data-booster/'+ pickle.id + '/edit'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'pickle-data-booster/'+ pickle.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

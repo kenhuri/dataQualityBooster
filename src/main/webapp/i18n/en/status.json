@@ -1,0 +1,11 @@
+{
+    "dataQualityBoosterApp": {
+        "Status" : {
+            "null": "",
+            "STARTED": "STARTED",
+            "FINISHED": "FINISHED",
+            "EXCUTING": "EXCUTING",
+            "ERROR": "ERROR"
+        }
+    }
+}

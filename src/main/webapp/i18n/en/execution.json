@@ -1,0 +1,34 @@
+
+{
+    "dataQualityBoosterApp": {
+        "execution" : {
+            "home": {
+                "title": "Executions",
+                "createLabel": "Create a new Execution",
+                "createOrEditLabel": "Create or edit a Execution",
+                "search": "Search for Execution"
+            },
+            "created": "A new Execution is created with identifier {{ param }}",
+            "updated": "A Execution is updated with identifier {{ param }}",
+            "deleted": "A Execution is deleted with identifier {{ param }}",
+            "delete": {
+                "question": "Are you sure you want to delete Execution {{ id }}?"
+            },
+            "detail": {
+                "title": "Execution"
+            },
+            "startDate": "Start Date",
+            "endDate": "End Date",
+            "status": "Status",
+            "inputFile": "Input File",
+            "outputFile": "Output File",
+            "logFile": "Log File",
+            "optimize": "Optimize",
+            "train": "Train",
+            "allocation": "Allocation",
+            "commentary": "Commentary",
+            "userId": "User Id",
+            "context": "Context"
+        }
+    }
+}

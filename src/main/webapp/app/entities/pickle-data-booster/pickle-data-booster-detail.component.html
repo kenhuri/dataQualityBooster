@@ -1,0 +1,43 @@
+
+<div *ngIf="pickle">
+    <h2><span jhiTranslate="dataQualityBoosterApp.pickle.detail.title">Pickle</span> {{pickle.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="dataQualityBoosterApp.pickle.nameField">Name Field</span></dt>
+        <dd>
+            <span>{{pickle.nameField}}</span>
+        </dd>
+        <dt><span jhiTranslate="dataQualityBoosterApp.pickle.file">File</span></dt>
+        <dd>
+            <div *ngIf="pickle.file">
+                <a (click)="openFile(pickle.fileContentType, pickle.file)" jhiTranslate="entity.action.open">open</a>
+                {{pickle.fileContentType}}, {{byteSize(pickle.file)}}
+            </div>
+        </dd>
+        <dt><span jhiTranslate="dataQualityBoosterApp.pickle.path">Path</span></dt>
+        <dd>
+            <span>{{pickle.path}}</span>
+        </dd>
+        <dt><span jhiTranslate="dataQualityBoosterApp.pickle.context">Context</span></dt>
+        <dd>
+            <div *ngIf="pickle.contextId">
+                <a [routerLink]="['/context-data-booster', pickle.contextId]">{{pickle.contextId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'pickle-data-booster/'+ pickle.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

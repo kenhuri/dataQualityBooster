@@ -1,0 +1,81 @@
+
+<div *ngIf="execution">
+    <h2><span jhiTranslate="dataQualityBoosterApp.execution.detail.title">Execution</span> {{execution.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="dataQualityBoosterApp.execution.startDate">Start Date</span></dt>
+        <dd>
+            <span>{{execution.startDate | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="dataQualityBoosterApp.execution.endDate">End Date</span></dt>
+        <dd>
+            <span>{{execution.endDate | date:'medium'}}</span>
+        </dd>
+        <dt><span jhiTranslate="dataQualityBoosterApp.execution.status">Status</span></dt>
+        <dd>
+            <span jhiTranslate="{{'dataQualityBoosterApp.Status.' + execution.status}}">{{execution.status}}</span>
+        </dd>
+        <dt><span jhiTranslate="dataQualityBoosterApp.execution.inputFile">Input File</span></dt>
+        <dd>
+            <div *ngIf="execution.inputFile">
+                <a (click)="openFile(execution.inputFileContentType, execution.inputFile)" jhiTranslate="entity.action.open">open</a>
+                {{execution.inputFileContentType}}, {{byteSize(execution.inputFile)}}
+            </div>
+        </dd>
+        <dt><span jhiTranslate="dataQualityBoosterApp.execution.outputFile">Output File</span></dt>
+        <dd>
+            <div *ngIf="execution.outputFile">
+                <a (click)="openFile(execution.outputFileContentType, execution.outputFile)" jhiTranslate="entity.action.open">open</a>
+                {{execution.outputFileContentType}}, {{byteSize(execution.outputFile)}}
+            </div>
+        </dd>
+        <dt><span jhiTranslate="dataQualityBoosterApp.execution.logFile">Log File</span></dt>
+        <dd>
+            <div *ngIf="execution.logFile">
+                <a (click)="openFile(execution.logFileContentType, execution.logFile)" jhiTranslate="entity.action.open">open</a>
+                {{execution.logFileContentType}}, {{byteSize(execution.logFile)}}
+            </div>
+        </dd>
+        <dt><span jhiTranslate="dataQualityBoosterApp.execution.optimize">Optimize</span></dt>
+        <dd>
+            <span>{{execution.optimize}}</span>
+        </dd>
+        <dt><span jhiTranslate="dataQualityBoosterApp.execution.train">Train</span></dt>
+        <dd>
+            <span>{{execution.train}}</span>
+        </dd>
+        <dt><span jhiTranslate="dataQualityBoosterApp.execution.allocation">Allocation</span></dt>
+        <dd>
+            <span>{{execution.allocation}}</span>
+        </dd>
+        <dt><span jhiTranslate="dataQualityBoosterApp.execution.commentary">Commentary</span></dt>
+        <dd>
+            <span>{{execution.commentary}}</span>
+        </dd>
+        <dt><span jhiTranslate="dataQualityBoosterApp.execution.userId">User Id</span></dt>
+        <dd>
+            <span>{{execution.userId}}</span>
+        </dd>
+        <dt><span jhiTranslate="dataQualityBoosterApp.execution.context">Context</span></dt>
+        <dd>
+            <div *ngIf="execution.contextId">
+                <a [routerLink]="['/context-data-booster', execution.contextId]">{{execution.contextId}}</a>
+            </div>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'execution-data-booster/'+ execution.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

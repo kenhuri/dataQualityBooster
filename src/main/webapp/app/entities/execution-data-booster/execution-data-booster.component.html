@@ -1,0 +1,114 @@
+<div>
+    <h2>
+        <span jhiTranslate="dataQualityBoosterApp.execution.home.title">Executions</span>
+        <button class="btn btn-primary float-right jh-create-entity create-execution-data-booster" [routerLink]="['/', { outlets: { popup: ['execution-data-booster-new'] } }]">
+            <span class="fa fa-plus"></span>
+            <span class="hidden-sm-down"  jhiTranslate="dataQualityBoosterApp.execution.home.createLabel">
+            Create new Execution
+            </span>
+        </button>
+    </h2>
+    <jhi-alert></jhi-alert>
+    <div class="row">
+        <div class="col-sm-12">
+            <form name="searchForm" class="form-inline">
+                <div class="input-group w-100 mt-3">
+                    <input type="text" class="form-control" [(ngModel)]="currentSearch" id="currentSearch" name="currentSearch" placeholder="{{ 'dataQualityBoosterApp.execution.home.search' | translate }}">
+                    <button class="input-group-append btn btn-info" (click)="search(currentSearch)">
+                        <span class="fa fa-search"></span>
+                    </button>
+                    <button class="input-group-append btn btn-danger" (click)="clear()" *ngIf="currentSearch">
+                        <span class="fa fa-trash-o"></span>
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <br/>
+    <div class="table-responsive" *ngIf="executions">
+        <table class="table table-striped">
+            <thead>
+            <tr jhiSort [(predicate)]="predicate" [(ascending)]="reverse" [callback]="transition.bind(this)">
+            <th jhiSortBy="id"><span jhiTranslate="global.field.id">ID</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="startDate"><span jhiTranslate="dataQualityBoosterApp.execution.startDate">Start Date</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="endDate"><span jhiTranslate="dataQualityBoosterApp.execution.endDate">End Date</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="status"><span jhiTranslate="dataQualityBoosterApp.execution.status">Status</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="inputFile"><span jhiTranslate="dataQualityBoosterApp.execution.inputFile">Input File</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="outputFile"><span jhiTranslate="dataQualityBoosterApp.execution.outputFile">Output File</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="logFile"><span jhiTranslate="dataQualityBoosterApp.execution.logFile">Log File</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="optimize"><span jhiTranslate="dataQualityBoosterApp.execution.optimize">Optimize</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="train"><span jhiTranslate="dataQualityBoosterApp.execution.train">Train</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="allocation"><span jhiTranslate="dataQualityBoosterApp.execution.allocation">Allocation</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="commentary"><span jhiTranslate="dataQualityBoosterApp.execution.commentary">Commentary</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="userId"><span jhiTranslate="dataQualityBoosterApp.execution.userId">User Id</span> <span class="fa fa-sort"></span></th>
+            <th jhiSortBy="contextId"><span jhiTranslate="dataQualityBoosterApp.execution.context">Context</span> <span class="fa fa-sort"></span></th>
+            <th></th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr *ngFor="let execution of executions ;trackBy: trackId">
+                <td><a [routerLink]="['../execution-data-booster', execution.id ]">{{execution.id}}</a></td>
+                <td>{{execution.startDate | date:'medium'}}</td>
+                <td>{{execution.endDate | date:'medium'}}</td>
+                <td jhiTranslate="{{'dataQualityBoosterApp.Status.' + execution.status}}">{{execution.status}}</td>
+                <td>
+                    <a *ngIf="execution.inputFile" (click)="openFile(execution.inputFileContentType, execution.inputFile)" jhiTranslate="entity.action.open">open</a>
+                    <span *ngIf="execution.inputFile">{{execution.inputFileContentType}}, {{byteSize(execution.inputFile)}}</span>
+                </td>
+                <td>
+                    <a *ngIf="execution.outputFile" (click)="openFile(execution.outputFileContentType, execution.outputFile)" jhiTranslate="entity.action.open">open</a>
+                    <span *ngIf="execution.outputFile">{{execution.outputFileContentType}}, {{byteSize(execution.outputFile)}}</span>
+                </td>
+                <td>
+                    <a *ngIf="execution.logFile" (click)="openFile(execution.logFileContentType, execution.logFile)" jhiTranslate="entity.action.open">open</a>
+                    <span *ngIf="execution.logFile">{{execution.logFileContentType}}, {{byteSize(execution.logFile)}}</span>
+                </td>
+                <td>{{execution.optimize}}</td>
+                <td>{{execution.train}}</td>
+                <td>{{execution.allocation}}</td>
+                <td>{{execution.commentary}}</td>
+                <td>{{execution.userId}}</td>
+                <td>
+                    <div *ngIf="execution.contextId">
+                        <a [routerLink]="['../context-data-booster', execution.contextId  ]" >{{execution.contextId}}</a>
+                    </div>
+                </td>
+                <td class="text-right">
+                    <div class="btn-group flex-btn-group-container">
+                        <button type="submit"
+                                [routerLink]="['../execution-data-booster', execution.id ]"
+                                class="btn btn-info btn-sm">
+                            <span class="fa fa-eye"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.view">View</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'execution-data-booster/'+ execution.id + '/edit'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-primary btn-sm">
+                            <span class="fa fa-pencil"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.edit">Edit</span>
+                        </button>
+                        <button type="submit"
+                                [routerLink]="['/', { outlets: { popup: 'execution-data-booster/'+ execution.id + '/delete'} }]"
+                                replaceUrl="true"
+                                queryParamsHandling="merge"
+                                class="btn btn-danger btn-sm">
+                            <span class="fa fa-remove"></span>
+                            <span class="d-none d-md-inline" jhiTranslate="entity.action.delete">Delete</span>
+                        </button>
+                    </div>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+    <div *ngIf="executions && executions.length">
+        <div class="row justify-content-center">
+            <jhi-item-count [page]="page" [total]="queryCount" [maxSize]="5" [itemsPerPage]="itemsPerPage"></jhi-item-count>
+        </div>
+        <div class="row justify-content-center">
+            <ngb-pagination [collectionSize]="totalItems" [(page)]="page" [pageSize]="itemsPerPage" [maxSize]="5" [rotate]="true" [boundaryLinks]="true" (pageChange)="loadPage(page)"></ngb-pagination>
+        </div>
+    </div>
+</div>
